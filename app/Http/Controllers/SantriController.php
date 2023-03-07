@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class SantriController extends Controller
 { 
     /**
     * Display a listing of the resource.
@@ -14,10 +14,10 @@ class ProductController extends Controller
     */
     function __construct()
     {
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:product-create', ['only' => ['create','store']]);
-        $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:santri-list|santri-create|santri-edit|santri-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:santri-create', ['only' => ['create','store']]);
+        $this->middleware('permission:santri-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:santri-delete', ['only' => ['destroy']]);
     }
     /**
     * Display a listing of the resource.
@@ -26,8 +26,8 @@ class ProductController extends Controller
     */
     public function index()
     {
-        $products = Product::latest()->paginate(5);
-        return view('products.index',compact('products'))
+        $santris = Santri::latest()->paginate(5);
+        return view('santris.index',compact('santris'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
     }
     
@@ -38,7 +38,7 @@ class ProductController extends Controller
     */
     public function create()
     {
-        return view('products.create');
+        return view('santris.create');
     }
     
     /**
@@ -54,65 +54,65 @@ class ProductController extends Controller
             'detail' => 'required',
         ]);
         
-        Product::create($request->all());
+        Santri::create($request->all());
         
-        return redirect()->route('products.index')
-        ->with('success','Product created successfully.');
+        return redirect()->route('santris.index')
+        ->with('success','Santri created successfully.');
     }
     
     /**
     * Display the specified resource.
     *
-    * @param  \App\Product  $product
+    * @param  \App\Santri  $santri
     * @return \Illuminate\Http\Response
     */
-    public function show(Product $product)
+    public function show(Santri $santri)
     {
-        return view('products.show',compact('product'));
+        return view('santris.show',compact('santri'));
     }
     
     /**
     * Show the form for editing the specified resource.
     *
-    * @param  \App\Product  $product
+    * @param  \App\Santri  $santri
     * @return \Illuminate\Http\Response
     */
-    public function edit(Product $product)
+    public function edit(Santri $santri)
     {
-        return view('products.edit',compact('product'));
+        return view('santris.edit',compact('santri'));
     }
     
     /**
     * Update the specified resource in storage.
     *
     * @param  \Illuminate\Http\Request  $request
-    * @param  \App\Product  $product
+    * @param  \App\Santri  $santri
     * @return \Illuminate\Http\Response
     */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Santri $santri)
     {
         request()->validate([
             'name' => 'required',
             'detail' => 'required',
         ]);
         
-        $product->update($request->all());
+        $santri->update($request->all());
         
-        return redirect()->route('products.index')
-        ->with('success','Product updated successfully');
+        return redirect()->route('santris.index')
+        ->with('success','Santri updated successfully');
     }
     
     /**
     * Remove the specified resource from storage.
     *
-    * @param  \App\Product  $product
+    * @param  \App\Santri  $santri
     * @return \Illuminate\Http\Response
     */
-    public function destroy(Product $product)
+    public function destroy(Santri $santri)
     {
-        $product->delete();
+        $santri->delete();
         
-        return redirect()->route('products.index')
-        ->with('success','Product deleted successfully');
+        return redirect()->route('santris.index')
+        ->with('success','Santri deleted successfully');
     }
 }
